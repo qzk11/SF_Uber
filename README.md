@@ -12,7 +12,7 @@ Last Modified   :
 ## Description
 -------------
 
-Final Project CSE 6242.
+Final Project for CSE 6242.
 
 ## Folder Structure
 -------------
