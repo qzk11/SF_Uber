@@ -30,21 +30,30 @@
     text.dummy-text {
         font-size: 12px;
     }
+  .text {
+    display: inline-block;
+  }
 </style>
 
 <body>
-<h1>Welcome to ATL Uber Data Analysis</h1>
+<h1>Atlanta Uber Data Analysis</h1>
 <h2>Team 28 TeamNoName</h2>
 <h3>Zhekun Qi, Yiqiong Xiao, Shuting Lin, Xiang Zhong, Jie Zhou</h3>
 
+<form action="#" method="post">
+  <p>Please input the origin and destination ID. We will predict the current estimated travel time.</p>
+  <p class="text">Origin: </p> <input class="text" type="text" id="input_origin" placeholder="123..."/>
+  <p class="text">Destination: </p> <input class="text" type="text" id="input_dest" placeholder="123..."/>
+  <button>Submit</button>
+</form>
+<br>
 <div id="slider1"></div>
+<br>
 <svg></svg>
 <script src="https://d3js.org/d3.v3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+
 <script src="./d3.slider.js"></script>
-<script src="https://d3js.org/d3-time.v1.min.js"></script>
-<script src="https://d3js.org/d3-time-format.v2.min.js"></script>
-<script src="https://unpkg.com/d3-simple-slider"></script>
+
 
 <script>
 
