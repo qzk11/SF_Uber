@@ -100,6 +100,19 @@
 
     var colorMap = new Map();
 
+
+
+    tripData = d3.tsv('../data/2019_1.tsv', function (d) {
+                        console.log(d);
+                        d.forEach(function (d) {
+                          if (d.sourceid === '141') {
+                            var regionArr = d.dstid.split(', ');
+                            regionArr.forEach(function (dd) {
+                              colorMap.set(dd, d.color);
+                            });
+                          }
+                        })
+                      });
     //slider
     //load color data
     d3.select('#slider1').call(
