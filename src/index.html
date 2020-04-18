@@ -3,6 +3,7 @@
 <title>ATL Uber</title>
 <link rel="stylesheet" href="./d3.css"/>
 
+<link href="./bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <style>
     .background {
         fill: #333;
@@ -36,6 +37,9 @@
     display: inline-block;
     color: #fff;
   }
+  .inputtext {
+    display: inline-block;
+  }
 </style>
 
 <body style="background-color:#333;">
@@ -43,10 +47,13 @@
 
 <form action="#" method="post">
   <p style="color: #fff;">Please input the origin and destination ID. We will predict the current estimated travel time.</p>
-  <p class="text">Origin: </p> <input class="text" type="text" id="input_origin" placeholder="123..."/>
-  <p class="text">Destination: </p> <input class="text" type="text" id="input_dest" placeholder="123..."/>
+  <label for="input_origin" class="text">Origin:  </label>
+  <input class="inputtext" type="text" id="input_origin" placeholder="123..."/>
+  <label for="input_dest" class="text">Destination:  </label>
+  <input class="inputtext" type="text" id="input_dest" placeholder="123..."/>
   <button>Submit</button>
 </form>
+
 <br>
 <div style="color: #fff" id="slider1"></div>
 <br>
