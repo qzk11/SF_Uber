@@ -3,7 +3,8 @@
 <title>ATL Uber</title>
 <link rel="stylesheet" href="./d3.css"/>
 
-<link href="./bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="./bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <style>
     .background {
         fill: #333;
@@ -33,25 +34,28 @@
     text.dummy-text {
         font-size: 12px;
     }
-  .text {
-    display: inline-block;
-    color: #fff;
-  }
-  .inputtext {
-    display: inline-block;
-  }
+
+    .text {
+        display: inline-block;
+        color: #fff;
+    }
+
+    .inputtext {
+        display: inline-block;
+    }
 </style>
 
 <body style="background-color:#333;">
 
 
 <form action="#" method="post">
-  <p style="color: #fff;">Please input the origin and destination ID. We will predict the current estimated travel time.</p>
-  <label for="input_origin" class="text">Origin:  </label>
-  <input class="inputtext" type="text" id="input_origin" placeholder="from 1 to 831"/>
-  <label for="input_dest" class="text">Destination:  </label>
-  <input class="inputtext" type="text" id="input_dest" placeholder="from 1 to 831"/>
-  <button>Submit</button>
+    <p style="color: #fff;">Please input the origin and destination ID. We will predict the current estimated travel
+        time.</p>
+    <label for="input_origin" class="text">Origin: </label>
+    <input class="inputtext" type="text" id="input_origin" placeholder="from 1 to 831"/>
+    <label for="input_dest" class="text">Destination: </label>
+    <input class="inputtext" type="text" id="input_dest" placeholder="from 1 to 831"/>
+    <button>Submit</button>
 </form>
 
 <br>
@@ -91,10 +95,10 @@
 
     // Add background
     svg.append('rect')
-            .attr('class', 'background')
-            .attr('width', width)
-            .attr('height', height)
-            .on('click', clicked);
+        .attr('class', 'background')
+        .attr('width', width)
+        .attr('height', height)
+        .on('click', clicked);
 
     var g = svg.append('g');
 
@@ -117,127 +121,157 @@
 
     var colorMap = new Map();
 
+    var size = 20;
+    // todo: needs to change the legend keys
+    var legend_keys = ["1", "2", "3", "4", "5", "6"]
+    var legend_color = ["#fffcdc","#c4f0a0",'#8cd4bc','#55bcc4','#287cb4','#2464ac']
+    var lineLegend = svg.selectAll(".lineLegend").data(legend_keys)
+        .enter().append("svg")
+        .attr("class", "lineLegend")
+        .attr("transform", function (d, i) {
+            return "translate(" + width + "," + (i * 0) + ")";
+        });
 
+    lineLegend.append("text").text(function (d) {
+        return d;
+    })
+        .attr("x", 70)
+        .attr("y", function (d, i) {
+            return 105 + i * (size + 5)
+        })
+        .attr("transform", "translate(15,9)") //align texts with boxes
+    .style("fill", "#fff");
+
+    lineLegend.append("rect")
+        .attr("fill", function (d, i) {
+          return legend_color[i];
+        })
+        .attr("x", 100)
+        .attr("y", function (d, i) {
+            return 100 + i * (size + 5)
+        })
+        .attr("width", 20)
+        .attr("height", 15);
 
     tripData = d3.tsv('../data/2019_1.tsv', function (d) {
-                        console.log(d);
-                        d.forEach(function (d) {
-                          if (d.sourceid === '141') {
-                            var regionArr = d.dstid.split(', ');
-                            regionArr.forEach(function (dd) {
-                              colorMap.set(dd, d.color);
-                            });
-                          }
-                        })
-                      });
+
+        d.forEach(function (d) {
+            if (d.sourceid === '141') {
+                var regionArr = d.dstid.split(', ');
+                regionArr.forEach(function (dd) {
+                    colorMap.set(dd, d.color);
+                });
+            }
+        })
+    });
     //slider
     //load color data
     d3.select('#slider1').call(
-
-            d3.slider().axis(true).min(1).max(12).step(1).snap(true)
-                    .on("slide", function (evt, value) {
-                      var tripData = d3.tsv('../data/2019_' + value + '.tsv', function (d) {
-                        console.log(value);
-                        d.forEach(function (d) {
-                          if (d.sourceid === '141') {
+        d3.slider().axis(true).min(1).max(12).step(1).snap(true)
+            .on("slide", function (evt, value) {
+                var tripData = d3.tsv('../data/2019_' + value + '.tsv', function (d) {
+                    console.log(value);
+                    d.forEach(function (d) {
+                        if (d.sourceid === '141') {
                             var regionArr = d.dstid.split(', ');
                             regionArr.forEach(function (dd) {
-                              colorMap.set(dd, d.color);
+                                colorMap.set(dd, d.color);
                             });
-                          }
-                        })
-                      });
-                      return tripData;
-
+                        }
                     })
+                });
+                return tripData;
+
+            })
     );
 
 
+    // Load map data
+    d3.json('../data/atl.json', function (error, mapData) {
+        var features = mapData.features;
+        // Update color scale domain based on data
+        color.domain([0, 20]);
+        // Draw each province as a path
+        mapLayer.selectAll('path')
+            .data(features)
+            .enter().append('path')
+            .attr('d', path)
+            .attr('vector-effect', 'non-scaling-stroke')
+            .style('fill', fillFn)
+            .on('mouseover', mouseover)
+            .on('mouseout', mouseout)
+            .on('click', clicked);
+    });
 
-        // Load map data
-        d3.json('../data/atl.json', function (error, mapData) {
-            var features = mapData.features;
-            // Update color scale domain based on data
-            color.domain([0, 20]);
-            // Draw each province as a path
-            mapLayer.selectAll('path')
-                .data(features)
-                .enter().append('path')
-                .attr('d', path)
-                .attr('vector-effect', 'non-scaling-stroke')
-                .style('fill', fillFn)
-                .on('mouseover', mouseover)
-                .on('mouseout', mouseout)
-                .on('click', clicked);
-        });
+    //Get color
+    function fillFn(d) {
+        var tmp = colorMap.get(d.properties.MOVEMENT_ID);
+        if (tmp === '1') {
+            return '#fffcdc';
+        } else if (tmp === '2') {
+            return '#c4f0a0';
+        } else if (tmp === '3') {
+            return '#8cd4bc';
+        } else if (tmp === '4') {
+            return '#55bcc4';
+        } else if (tmp === '5') {
+            return '#287cb4';
+        } else {
+            return '#2464ac';
+        }
+    }
 
-        //Get color
-        function fillFn(d) {
-            var tmp = colorMap.get(d.properties.MOVEMENT_ID);
-            if (tmp === '1') {
-                return '#fffcdc';
-            } else if (tmp === '2') {
-                return '#c4f0a0';
-            } else if (tmp === '3') {
-                return '#8cd4bc';
-            } else if (tmp === '4') {
-                return '#55bcc4';
-            } else if (tmp === '5') {
-                return '#287cb4';
-            } else {
-                return '#2464ac';
-            }
+    //change clicked region color and zoom in
+    function clicked(d) {
+        var x, y, k;
+
+        // Compute centroid of the selected path
+        if (d && centered !== d) {
+            var centroid = path.centroid(d);
+            x = centroid[0];
+            y = centroid[1];
+            k = 2;
+            centered = d;
+        } else {
+            x = width / 2;
+            y = height / 2;
+            k = 1;
+            centered = null;
         }
 
-        //change clicked region color and zoom in
-        function clicked(d) {
-            var x, y, k;
+        // Highlight the clicked area
+        mapLayer.selectAll('path')
+            .style('fill', function (d) {
+                return centered && d === centered ? '#D5708B' : fillFn(d);
+            });
 
-            // Compute centroid of the selected path
-            if (d && centered !== d) {
-                var centroid = path.centroid(d);
-                x = centroid[0];
-                y = centroid[1];
-                k = 2;
-                centered = d;
-            } else {
-                x = width / 2;
-                y = height / 2;
-                k = 1;
-                centered = null;
-            }
+        //Zoom
+        g.transition()
+            .duration(750)
+            .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
+    }
 
-            // Highlight the clicked area
-            mapLayer.selectAll('path')
-                .style('fill', function (d) {
-                    return centered && d === centered ? '#D5708B' : fillFn(d);
-                });
+    function mouseover(d) {
+        // Highlight hovered area
+        d3.select(this).style('fill', 'orange');
+    }
 
-            //Zoom
-            g.transition()
-                .duration(750)
-                .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
-        }
+    function mouseout(d) {
+        // Reset color
+        mapLayer.selectAll('path')
+            .style('fill', function (d) {
+                return centered && d === centered ? '#D5708B' : fillFn(d);
+            });
 
-        function mouseover(d) {
-            // Highlight hovered area
-            d3.select(this).style('fill', 'orange');
-        }
+        // Remove effect text
+        effectLayer.selectAll('text').transition()
+            .style('opacity', 0)
+            .remove();
 
-        function mouseout(d) {
-            // Reset color
-            mapLayer.selectAll('path')
-                .style('fill', function (d) {
-                    return centered && d === centered ? '#D5708B' : fillFn(d);
-                });
+        // Clear province name
+        bigText.text('');
 
-            // Remove effect text
-            effectLayer.selectAll('text').transition()
-                .style('opacity', 0)
-                .remove();
-
-            // Clear province name
-            bigText.text('');
 
     }
+
 </script>
