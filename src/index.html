@@ -69,6 +69,10 @@
 
 <script>
 
+    var month = 1;
+    var id = '141';
+    var ftr;
+
     var width = 2500,
         height = 1700,
         centered;
@@ -169,10 +173,12 @@
     d3.select('#slider1').call(
         d3.slider().axis(true).min(1).max(12).step(1).snap(true)
             .on("slide", function (evt, value) {
+                colorMap.clear();
                 var tripData = d3.tsv('../data/2019_' + value + '.tsv', function (d) {
                     console.log(value);
+                    month = value;
                     d.forEach(function (d) {
-                        if (d.sourceid === '141') {
+                        if (d.sourceid === id) {
                             var regionArr = d.dstid.split(', ');
                             regionArr.forEach(function (dd) {
                                 colorMap.set(dd, d.color);
@@ -189,6 +195,7 @@
     // Load map data
     d3.json('../data/atl.json', function (error, mapData) {
         var features = mapData.features;
+        ftr = features;
         // Update color scale domain based on data
         color.domain([0, 20]);
         // Draw each province as a path
@@ -224,14 +231,32 @@
     //change clicked region color and zoom in
     function clicked(d) {
         var x, y, k;
-
+        id = d.properties.MOVEMENT_ID;
         // Compute centroid of the selected path
         if (d && centered !== d) {
+            colorMap.clear();   //clearMap
             var centroid = path.centroid(d);
             x = centroid[0];
             y = centroid[1];
             k = 2;
             centered = d;
+            d3.tsv('../data/2019_' + month + '.tsv', function(e){
+
+                e.forEach(function(dd){
+                    if(dd.sourceid === d.properties.MOVEMENT_ID){
+                        var regionArr = dd.dstid.split(', ');
+                        regionArr.forEach(function(ddd){
+                            colorMap.set(ddd, dd.color);
+                        });
+                    }
+                });
+            });
+            // dye the map layer according to the new colorMap
+            mapLayer.selectAll("path")
+                    .data(ftr)
+                    .enter().append('path')
+                    .attr('vector-effect', 'non-scaling-stroke')
+                    .style('fill',fillFn);
         } else {
             x = width / 2;
             y = height / 2;
@@ -246,9 +271,9 @@
             });
 
         //Zoom
-        g.transition()
-            .duration(750)
-            .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
+        // g.transition()
+        //     .duration(750)
+        //     .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
     }
 
     function mouseover(d) {
