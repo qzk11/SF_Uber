@@ -73,7 +73,7 @@
     var id = '141';
     var ftr;
 
-    var width = 2500,
+    var width = 1900,
         height = 1700,
         centered;
 
@@ -87,7 +87,7 @@
         .scale(65000)
         // Center the Map
         .center([-84, 33.7])
-        .translate([width / 2, height / 2]);
+        .translate([width *0.7, height / 2]);
 
     var path = d3.geo.path()
         .projection(projection);
