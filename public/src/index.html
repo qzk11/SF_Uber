@@ -48,13 +48,13 @@
 <body style="background-color:#333;" class="text-center">
 
 
-<form action="#" method="post">
+<form action="/prediction" method="post">
     <p style="color: #fff;">Please input the origin and destination ID. We will predict the current estimated travel
         time.</p>
-    <label for="input_origin" class="text">Origin: </label>
-    <input class="inputtext" type="text" id="input_origin" placeholder="from 1 to 831"/>
-    <label for="input_dest" class="text">Destination: </label>
-    <input class="inputtext" type="text" id="input_dest" placeholder="from 1 to 831"/>
+    <label class="text">Origin: </label>
+    <input class="inputtext" type="text" name="input_origin" placeholder="from 1 to 831"/>
+    <label class="text">Destination: </label>
+    <input class="inputtext" type="text" name="input_dest" placeholder="from 1 to 831"/>
     <button>Submit</button>
 </form>
 
