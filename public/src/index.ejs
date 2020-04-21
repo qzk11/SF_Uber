@@ -48,7 +48,7 @@
 <body style="background-color:#333;" class="text-center">
 
 
-<form action="/prediction" method="post">
+<form action="/visualization" method="post">
     <p style="color: #fff;">Please input the origin and destination ID. We will predict the current estimated travel
         time.</p>
     <label class="text">Origin: </label>
@@ -57,7 +57,7 @@
     <input class="inputtext" type="text" name="input_dest" placeholder="from 1 to 831"/>
     <button>Submit</button>
 </form>
-
+<h3 style="color: white;"><%= distanceVar %></h3>
 <br>
 <div style="color: #fff" id="slider1"></div>
 <br>
