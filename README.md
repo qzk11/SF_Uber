@@ -8,11 +8,14 @@ Author          : Zhekun Qi, Yiqiong Xiao, Shuting Lin, Jie Zhou, Xiang Zhong
 ## DESCRIPTION
 -------------
 
-Analyzing and visualizing 12 months' travel time data from Uber in Atlanta in 2019. We render a web service that can visualize the average travel time 
+Analyzing and visualizing 12 months' travel time data from Uber in Atlanta in 2019. We render a web service that can visualize the average travel time.
 
 ## INSTALLATION
 -------------
-This application requires [Node.js](https://nodejs.org/) v4+ if you decide to run it locally.
+You can access the application directly via the link below:
+https://atlantauber.azurewebsites.net/
+
+Or if you decide to run it locally, this application requires [Node.js](https://nodejs.org/).
 
 The package includes dependencies files, you can just start the server.
 
