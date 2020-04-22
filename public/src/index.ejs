@@ -5,6 +5,7 @@
 
 <link href="./src/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
 <style>
     .background {
         fill: #333;
@@ -43,6 +44,16 @@
     .inputtext {
         display: inline-block;
     }
+    .slider {
+        margin-left: 20px;
+        margin-right: 40px;
+        width: 75%;
+        display: inline-block;
+    }
+    .month {
+        color: #fff;
+
+    }
 </style>
 
 <body style="background-color:#333;" class="text-center">
@@ -59,7 +70,8 @@
 </form>
 <h3 style="color: white;"><%= distanceVar %></h3>
 <br>
-<div style="color: #fff" id="slider1"></div>
+<label class="month">Please select a month: </label>
+<div class= "slider " style="color: #fff"  id="slider1"></div>
 <br>
 <svg></svg>
 <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -127,7 +139,7 @@
 
     var size = 20;
     // todo: needs to change the legend keys
-    var legend_keys = ["1", "2", "3", "4", "5", "6"]
+    var legend_keys = ["<8min", "8-15min", "16-25min", "26-35min", "<35min", "Data Not Provided"]
     var legend_color = ["#fffcdc","#c4f0a0",'#8cd4bc','#55bcc4','#287cb4','#2464ac']
     var lineLegend = svg.selectAll(".lineLegend").data(legend_keys)
         .enter().append("svg")
@@ -139,7 +151,7 @@
     lineLegend.append("text").text(function (d) {
         return d;
     })
-        .attr("x", 70)
+        .attr("x", 85)
         .attr("y", function (d, i) {
             return 105 + i * (size + 5)
         })
@@ -150,7 +162,7 @@
         .attr("fill", function (d, i) {
           return legend_color[i];
         })
-        .attr("x", 100)
+        .attr("x", 70)
         .attr("y", function (d, i) {
             return 100 + i * (size + 5)
         })
