@@ -8,7 +8,7 @@ Author          : Zhekun Qi, Yiqiong Xiao, Shuting Lin, Jie Zhou, Xiang Zhong
 ## DESCRIPTION
 -------------
 
-Analyzing and visualizing 12 months' travel time data from Uber in Atlanta in 2019. We render a web service that can visualize the average travel time.
+Analyzing and visualizing 12 months' travel time data from Uber in Atlanta in 2019. We render a web service that can visualize adn predict the average travel time. 
 
 ## INSTALLATION
 -------------
