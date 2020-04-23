@@ -42,4 +42,5 @@ $ PORT=3000 node server.js
 Click the get started button and you will see the main project page. Due to the huge amount of data to be loaded, **the image below the slider will show after approximately 15 seconds**. Please be patient. 
  - Click any area on the map and select it as the origin point, the choropleth map would show you the the average travel time from that point to any destination in atlanta.
  - Slide the slider above the map to select the month you want to explore. The refreshing process may cost up to 10 seconds.
- - Input an origin ID and a destination ID, you will see the approximate distance and the prediction trip time.
+ - Put your mouse over certain area, you will see its ID. Then input an origin ID and a destination ID, you will see the approximate distance and the prediction trip time.
+
