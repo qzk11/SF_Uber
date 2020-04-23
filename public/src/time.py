@@ -30,7 +30,7 @@ a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
 c = 2 * asin(sqrt(a))
 r = 6371  # R_earth
 x = c*r/1.6
-y = (16.0365645*x+2029)/60
+y = ((16.0365645*x+2029)/60 - 33.82)*7
 print("the distance is " + str('{:.2f}'.format(x)) + " mile, and the travel time is " + str('{:.2f}'.format(y)) + " min")
 sys.stdout.flush()
 #     print(c*r*1000)
