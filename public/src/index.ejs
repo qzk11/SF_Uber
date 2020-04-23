@@ -141,7 +141,7 @@
 
     var size = 20;
     // todo: needs to change the legend keys
-    var legend_keys = ["<8min", "8-15min", "16-25min", "26-35min", "<35min", "Data Not Provided"]
+    var legend_keys = ["<8min", "8-15min", "16-25min", "26-35min", ">35min", "Data Not Provided"]
     var legend_color = ["#fffcdc","#c4f0a0",'#8cd4bc','#55bcc4','#287cb4','#2464ac']
     var lineLegend = svg.selectAll(".lineLegend").data(legend_keys)
         .enter().append("svg")
