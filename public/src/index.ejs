@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>ATL Uber</title>
+<title>SF Uber</title>
 <link rel="stylesheet" href="src/d3.css"/>
 
 <link href="./src/bootstrap.min.css" rel="stylesheet"
@@ -86,7 +86,7 @@
 
 <body style="background-color:#333;" class="text-center">
 
-
+<!-- 
 <form action="/visualization" method="post">
     <p style="color: #fff;">Please input the origin and destination ID. We will predict the current estimated travel
         time.</p>
@@ -97,10 +97,10 @@
     <input class="inputtext" type="text" name="input_dest" placeholder="from 0 to 830"/>
 
     <button>Submit</button>
-</form>
+</form> -->
 <h3 style="color: white;"><%= distanceVar %></h3>
 <br>
-<label class="month">Please select a month: </label>
+<!-- <label class="month">Please select a month: </label> -->
 <div class= "slider " style="color: #fff"  id="slider1"></div>
 <br>
 <svg></svg>
@@ -126,9 +126,9 @@
         .range(['#fff', '#000080']);
 
     var projection = d3.geo.mercator()
-        .scale(65000)
+        .scale(50000)
         // Center the Map
-        .center([-84, 33.7])
+        .center([-122, 37.5])
         .translate([width *0.7, height / 2]);
 
     var path = d3.geo.path()
@@ -199,10 +199,10 @@
         .attr("width", 20)
         .attr("height", 15);
 
-    tripData = d3.tsv('../data/2019_1.tsv', function (d) {
+    tripData = d3.tsv('../data/2018_8.tsv', function (d) {
 
         d.forEach(function (d) {
-            if (d.sourceid === '141') {
+            if (d.sourceid === '2308') {
                 var regionArr = d.dstid.split(', ');
                 regionArr.forEach(function (dd) {
                     colorMap.set(dd, d.color);
@@ -228,30 +228,30 @@
 
     //slider
     //load color data
-    d3.select('#slider1').call(
-        d3.slider().axis(true).min(1).max(12).step(1).snap(true)
-            .on("slide", function (evt, value) {
-                colorMap.clear();
-                var tripData = d3.tsv('../data/2019_' + value + '.tsv', function (d) {
-                    console.log(value);
-                    month = value;
-                    d.forEach(function (d) {
-                        if (d.sourceid === id) {
-                            var regionArr = d.dstid.split(', ');
-                            regionArr.forEach(function (dd) {
-                                colorMap.set(dd, d.color);
-                            });
-                        }
-                    })
-                });
-                return tripData;
+    // d3.select('#slider1').call(
+    //     d3.slider().axis(true).min(1).max(12).step(1).snap(true)
+    //         .on("slide", function (evt, value) {
+    //             colorMap.clear();
+    //             var tripData = d3.tsv('../data/2018_' + value + '.tsv', function (d) {
+    //                 console.log(value);
+    //                 month = value;
+    //                 d.forEach(function (d) {
+    //                     if (d.sourceid === id) {
+    //                         var regionArr = d.dstid.split(', ');
+    //                         regionArr.forEach(function (dd) {
+    //                             colorMap.set(dd, d.color);
+    //                         });
+    //                     }
+    //                 })
+    //             });
+    //             return tripData;
 
-            })
-    );
+    //         })
+    // );
 
 
     // Load map data
-    d3.json('../data/atl.json', function (error, mapData) {
+    d3.json('../data/sf.json', function (error, mapData) {
         var features = mapData.features;
         ftr = features;
         // Update color scale domain based on data
@@ -298,7 +298,7 @@
             y = centroid[1];
             k = 2;
             centered = d;
-            d3.tsv('../data/2019_' + month + '.tsv', function(e){
+            d3.tsv('../data/2018_8.tsv', function(e){
 
                 e.forEach(function(dd){
                     if(dd.sourceid === d.properties.MOVEMENT_ID){
