@@ -11,8 +11,11 @@ app.use(express.static('public'));
 app.get("/", function (req, res) {
     res.sendFile(__dirname + "/index.html");
 });
-app.get("/visualization", function (req, res) {
+app.get("/ubermovement", function (req, res) {
     res.render(__dirname + "/public/src/index.ejs",{distanceVar:" "});
+});
+app.get("/heatmap", function(req, res) {
+    res.sendFile(__dirname + "/public/src/heatmap.html");
 });
 app.get("/contact", function (req, res) {
     res.sendFile(__dirname + "/public/src/contact.html");
@@ -21,7 +24,7 @@ app.listen(process.env.PORT, process.env.IP, function () {
     console.log("Server has started");
 });
 
-app.post("/visualization", function (req, res) {
+app.post("/ubermovement", function (req, res) {
     var pos1 = req.body.input_origin;
     var pos2 = req.body.input_dest;
     // res.send(pos1);
