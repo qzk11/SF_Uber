@@ -20,6 +20,9 @@ app.get("/heatmap", function(req, res) {
 app.get("/contact", function (req, res) {
     res.sendFile(__dirname + "/public/src/contact.html");
 });
+app.get("/flow", function (req, res) {
+    res.sendFile(__dirname + "/public/src/flow.html");
+});
 app.listen(process.env.PORT, process.env.IP, function () {
     console.log("Server has started");
 });
